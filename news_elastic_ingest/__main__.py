@@ -30,7 +30,8 @@ from news_elastic_ingest import index_bulk
     help="elasticsearch password",
 )
 def main(json_file, indexprefix, host, password):
-    index_bulk(json_file.read(), indexprefix, host, password)
+    n = index_bulk(json_file.read(), indexprefix, host, password)
+    print(f"Indexed {n} articles to Elasticsearch server at {host}:9200")
 
 
 if __name__ == "__main__":

@@ -62,6 +62,10 @@ def index_bulk(json_data, index_prefix="news", host=None, password=None):
     password: str
         elasticsearch password, optional if connection already established
         using `connect` function
+
+    Return
+    ------
+    number of articles indexed
     """
     global CLIENT
     if not CLIENT:
@@ -86,7 +90,7 @@ def index_bulk(json_data, index_prefix="news", host=None, password=None):
 
     articles = []
     for line in json_data.splitlines():
-        if line != "\n":
+        if line.strip() != "":
             article_json = json.loads(line)
             article_date = datetime.strptime(article_json["link"]["date"], "%Y-%m-%d")
             Article = _get_class(article_date, article_json.get("source") or "basic")
@@ -103,3 +107,4 @@ def index_bulk(json_data, index_prefix="news", host=None, password=None):
         f"Uploading {len(articles)} articles to Elasticsearch server at {host}:9200"
     )
     bulk(CLIENT, articles, include_meta=True)
+    return len(articles)
