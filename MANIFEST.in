@@ -1,0 +1,3 @@
+include COPYING
+include README.md
+include news_elastic_ingest/_version.txt
