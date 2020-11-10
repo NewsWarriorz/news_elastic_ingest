@@ -72,7 +72,7 @@ def index_bulk(json_data, index="newsbasic", host=None, password=None):
         )
     Article = get_article_class(index)
     articles = []
-    for line in json_data:
+    for line in json_data.splitlines():
         if line != "\n":
             article_json = json.loads(line)
             article = Article(
